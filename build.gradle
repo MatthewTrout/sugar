@@ -35,7 +35,7 @@ subprojects { proj ->
     apply plugin: 'jacoco'
 
     jacoco {
-        version "0.7.1.201405082137"
+        version "1.7-Snapshot"
     }
 
     task jacocoTestReport(type: JacocoReport) {

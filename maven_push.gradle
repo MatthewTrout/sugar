@@ -1,15 +1,16 @@
 apply plugin: 'maven'
 apply plugin: 'signing'
 
+def nexusUrl = 'http://mvn/nexus'
 def sonatypeRepositoryUrl
 if (isReleaseBuild()) {
     println 'RELEASE BUILD'
     sonatypeRepositoryUrl = hasProperty('RELEASE_REPOSITORY_URL') ? RELEASE_REPOSITORY_URL
-            : "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+            : "${nexusUrl}/content/repositories/thirdparty/"
 } else {
     println 'DEBUG BUILD'
     sonatypeRepositoryUrl = hasProperty('SNAPSHOT_REPOSITORY_URL') ? SNAPSHOT_REPOSITORY_URL
-            : "https://oss.sonatype.org/content/repositories/snapshots/"
+            : "${nexusUrl}/content/repositories/thirdparty/"
 }
 
 def getRepositoryUsername() {
@@ -85,7 +86,7 @@ afterEvaluate { project ->
     }
 
     artifacts {
-        //archives packageReleaseJar
+       // archives packageReleaseJar
         archives androidSourcesJar
         archives androidJavadocsJar
     }
