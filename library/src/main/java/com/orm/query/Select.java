@@ -70,11 +70,16 @@ public class Select<T> implements Iterable {
         return this;
     }
 
-    private void mergeConditions(Condition[] conditions, Condition.Type type) {
+    private void mergeConditions(Condition[] conditions, Condition.Type combineType) {
+        mergeConditions(conditions, combineType, Condition.Type.AND);
+    }
+
+
+    private void mergeConditions(Condition[] conditions, Condition.Type combineType, Condition.Type mergeWithType) {
         StringBuilder toAppend = new StringBuilder();
         for (Condition condition : conditions) {
             if (toAppend.length() != 0) {
-                toAppend.append(SPACE).append(type.name()).append(SPACE);
+                toAppend.append(SPACE).append(combineType.name()).append(SPACE);
             }
 
             if (Condition.Check.LIKE.equals(condition.getCheck()) ||
@@ -100,7 +105,7 @@ public class Select<T> implements Iterable {
         }
         
         if (!whereClause.isEmpty()) {
-            whereClause += SPACE + type.name() + SPACE;
+            whereClause += SPACE + mergeWithType.name() + SPACE;
         }
 
         whereClause += LEFT_PARENTHESIS + toAppend + RIGHT_PARENTHESIS;
