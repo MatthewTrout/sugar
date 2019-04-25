@@ -108,12 +108,14 @@ public final class SelectTest {
         assertEquals(1, where.getArgs().length);
         assertEquals("satya", where.getArgs()[0]);
 
-        where.or(Condition.prop("prop").eq(2));
+        where.or(Condition.prop("prop").eq(2), Condition.prop("prop2").eq(3));
 
-        assertEquals("(test = ? ) OR (prop = ? )", where.getWhereCond());
-        assertEquals(2, where.getArgs().length);
+        assertEquals("(test = ? ) AND (prop = ?  OR prop2 = ? )", where.getWhereCond());
+        assertEquals(3, where.getArgs().length);
         assertEquals("satya", where.getArgs()[0]);
         assertEquals("2", where.getArgs()[1]);
+        assertEquals("3", where.getArgs()[2]);
+
     }
 
     @Test
